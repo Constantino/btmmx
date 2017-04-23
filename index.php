@@ -1,40 +1,3 @@
-<?php
-header("refresh: 300;");
-//dolares
-setlocale(LC_MONETARY, 'en_US.UTF-8');
-function getPriceusd($url) {
-    $decode = file_get_contents ($url);
-    return json_decode ($decode, true);
-}
-
-$btcUSD = getPriceusd('https://bitpay.com/api/rates/usd');
-$btcPriceusd = $btcUSD ["rate"];
-//pesos
-function getPricemxn($url2) {
-    $decode2 = file_get_contents ($url2);
-    return json_decode ($decode2, true);
-}
-
-$btcMXN = getPricemxn('https://api.bitso.com/v2/ticker');
-$btcPricemxn = $btcMXN ["last"];
-//coindesk
-
-function getPriceusd2($url3) {
-    $decode3 = file_get_contents ($url3);
-    return json_decode ($decode3);
-}
-
-$btcUSD2 = getPriceusd2('https://api.coindesk.com/v1/bpi/currentprice.json');
-$btcPriceusd2 = $btcUSD2->bpi->USD->rate;
-
-
-$btcDisplay1 = round($btcPriceusd, 2);
-$btcDisplay2 = round($btcPricemxn, 2);
-$btcDisplay3 = round($btcPriceusd2, 2);
-//tipo de cambio
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -46,39 +9,10 @@ $btcDisplay3 = round($btcPriceusd2, 2);
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
     <link rel="icon" type="image/png" href="img/favicon.png">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-    <script>
-        function btcConvert (input) {
-            if (isNaN (input.value)) {
-                input.value = 0;
-            }
-            var price = "<?php echo $btcDisplay2; ?>";
-            var output = input.value * price
-            var co = document.getElementById ('mxn');
-            mxn.value = output.toFixed(2);
-        }
-
-        function mxnConvert (input) {
-            if (isNaN (input.value)) {
-                input.value = 0;
-            }
-            var price2 = "<?php echo $btcDisplay2; ?>";
-            var output2 = input.value / price2
-            var co2 = document.getElementById ('bit');
-            bit.value = output2.toFixed(8);
-        }    
-
-        function tar (input) {
-            if (isNaN (input.value)) {
-                input.value = 0;
-            }
-            var tarifa = 0;
-            var output3 = tarifa
-            var ta = document.getElementById ('tarifa');
-            tarifa.value = ta.toFixed(2);    
-        }    
-    </script>
+    
 
 <div align="center">
     <a href="https://www.bitcoinmty.com/">
@@ -89,19 +23,16 @@ $btcDisplay3 = round($btcPriceusd2, 2);
 
 </div>
     
-
     <div class="col-md-5" align="center">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Cotizacion de Bitcoin</h3>
             </div>
             <div class="panel-body">
-                USD <?php echo money_format('%.2n', $btcDisplay1); ?> (Bitpay)</br>
-                USD <?php echo money_format('%.2n', $btcDisplay3); ?> (Coindesk)</br>
-                MXN <?php echo money_format('%.2n', $btcDisplay2); ?> (Bitso)</br>
+                <p id="bitcoinParagraph"></p>
             </div>
             <div class="panel-footer">
-                Recarga automatica cada 5 minutos                                
+                Informaci&oacute;n en tiempo real
             </div>
         </div>
     </div>
@@ -115,7 +46,7 @@ $btcDisplay3 = round($btcPriceusd2, 2);
             <iframe frameborder="0" scrolling="no" height="68" width="273" allowtransparency="true" marginwidth="0" marginheight="0" src="https://sslfxrates.forexprostools.com/index.php?force_lang=49&pairs_ids=39;&header-text-color=%23FFFFFF&curr-name-color=%230059b0&inner-text-color=%23000000&green-text-color=%232A8215&green-background=%23B7F4C2&red-text-color=%23DC0001&red-background=%23FFE2E2&inner-border-color=%23CBCBCB&border-color=%23cbcbcb&bg1=%23F6F6F6&bg2=%23ffffff&bid=show&ask=show&last=hide&open=hide&high=hide&low=hide&change=hide&last_update=hide"></iframe>
             </div>
         <div class="panel-footer">
-            Informacion en tiempo real
+            Informaci&oacute;n en tiempo real
         </div>
         </div>
     </div>
@@ -165,6 +96,9 @@ $btcDisplay3 = round($btcPriceusd2, 2);
         <iframe name="qr" frameborder="0" width="100%" Height="350px" src="makeqr.php">
         </iframe>
     </div>
+
+
+    <script src="js/bitcoinFunctions.js"></script>
 
 </body>
 </html>
